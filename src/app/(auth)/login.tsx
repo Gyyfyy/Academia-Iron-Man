@@ -1,36 +1,90 @@
-import {View, StyleSheet, Appearance, useColorScheme} from 'react-native';
-import {StatusBar} from 'expo-status-bar';
-import {Link} from 'expo-router';
-import {Image} from 'expo-image';
-import {Btn} from '../../components/button';
-import {Inpt} from '../../components/input';
+import { View, StyleSheet, Alert, useColorScheme, Platform, KeyboardAvoidingView } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { Link, useRouter } from 'expo-router';
+import { Image } from 'expo-image';
+import { Btn } from '../../components/button';
+import { Inpt } from '../../components/input';
+import React, { useState } from 'react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../config/firebase.ts';
+import { LightTheme, DarkTheme } from '../../constants/themes.ts'; 
 
 export default function Login() {
   const colorScheme = useColorScheme();
-  const themeTextStyle = colorScheme === 'light' ? styles.lightThemeText : styles.darkThemeText;
-  const themeBackgroundStyle = colorScheme === 'light' ? styles.lightBackground : styles.darkBackground;
-  const buttonColor = colorScheme === 'light' ? '#08F04D' : '#95E06C';
+  const theme = colorScheme === 'dark' ? DarkTheme : LightTheme;
+  
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const router = useRouter();
+
+  async function handleLogin() {
+    if (!email || !password) {
+      Alert.alert("Erro", "Por favor, preencha todos os campos!");
+      return;
+    }
+    try {
+      await signInWithEmailAndPassword(auth, email.trim(), password);
+      Alert.alert("Sucesso", "Login realizado com sucesso!");
+      router.replace('/(app)/home'); 
+    } catch (error: any) {
+      console.error(error);
+      if (error.code === 'auth/invalid-credential' || error.code === 'auth/user-not-found') {
+        Alert.alert("Erro de Acesso", "E-mail ou senha incorretos.");
+      } else {
+        Alert.alert("Erro", "Não foi possível fazer login. Tente novamente mais tarde.");
+      }
+    }
+  }
+
   return (
-    <View style={[styles.background, themeBackgroundStyle]}>
-      <StatusBar style='dark'/>
-      <View style={styles.loginForm}>
-        <Image source={require('../../../assets/images/academia-logo.png')} style={styles.logo} cotentFit="contain" transition={500}/>
-        <Inpt
-        label='E-mail'
-        placeholder='Digite o seu e-mail'
-        keyboardType='email-address'
-        autoCapitalize='none'
+    <KeyboardAvoidingView 
+      behavior="padding"
+      style={[styles.background, { backgroundColor: theme.colors.background }]}
+    >
+      <StatusBar style={theme.dark ? 'light' : 'dark'} />
+      <View style={[styles.loginForm, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }]}>
+        
+        <Image 
+          source={require('../../../assets/images/academia-logo.png')} 
+          style={styles.logo} 
+          contentFit="contain" 
+          transition={500}
         />
+        
         <Inpt
-        label='Senha'
-        placeholder='Digite a sua senha'
-        secureTextEntry
+          label='E-mail'
+          placeholder='Digite o seu e-mail'
+          keyboardType='email-address'
+          autoCapitalize='none'
+          value={email}
+          onChangeText={setEmail}
         />
-        <Link href="./register" style={[styles.link, themeTextStyle]}>Esqueceu a sua senha?</Link>
-        <Btn title='Entrar'/>
-        <Btn title='Cadastre-se'/>
+        
+        <Inpt
+          label='Senha'
+          placeholder='Digite a sua senha'
+          secureTextEntry
+          value={password}
+          onChangeText={setPassword}
+        />
+        
+        <Link 
+          href="./forgotpwd" 
+          style={[
+            styles.link, 
+            { 
+              color: theme.colors.textSecondary,
+              fontSize: theme.fonts.size.small 
+            }
+          ]}
+        >
+          Esqueceu a sua senha?
+        </Link>
+        
+        <Btn title='Entrar' onPress={handleLogin}/>
+        <Btn title='Cadastre-se' onPress={() => router.push('/register')}/>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -40,31 +94,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  lightBackground: {
-    backgroundColor: '#d0d0c0',
-  },
-  darkBackground: {
-    backgroundColor: '#555B6E',
-  },
-  lightThemeText: {
-    color: '#242c40',
-  },
-  darkThemeText: {
-    color: '#d0d0c0',
-  },
   loginForm: {
-    backgroundColor: '#474A48',
-    width: '80%',
-    height: '70%',
-    borderRadius: '5%',
+    width: '85%',
+    paddingHorizontal: 20,
+    paddingVertical: 24,
+    borderRadius: 12,
+    borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center'
   },
   link: {
-    marginBottom: '5%',
+    marginBottom: 16,
+    alignSelf: 'flex-end',
   },
   logo: {
-    width: 250,
-    height: 250,
+    width: 140, 
+    height: 140,
+    marginBottom: 16,
   },
 });
