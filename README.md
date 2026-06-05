@@ -28,3 +28,44 @@ Uma aplicação móvel desenvolvida para prescrição de rotinas de exercícios 
 | Modo Escuro | Modo Claro |
 | :---: | :---: |
 |<img width="1080" height="2340" alt="Image" src="https://github.com/user-attachments/assets/b7165d55-b90f-49d8-b922-a1bd79b3ebeb" /> | <img width="1080" height="2340" alt="Image" src="https://github.com/user-attachments/assets/7db7ad90-b72f-431c-a505-4d6bbb5f3e56" /> |
+
+---
+
+## Instalação e Execução
+
+### Requisitos
+
+- **Node.js v24**
+- **Dispositivo móvel**
+
+### Passos para a execução
+
+1. **Clonar o repositório**
+   ```bash
+   git clone https://github.com/Gyyfyy/Iron-Man-App
+   cd Iron-Man-App
+   ```
+   
+2. **Instalar as dependências**
+   ```bash
+   npm install
+   ```
+
+3. **Build Local**
+   ```bash
+   npx expo prebuild --platform android
+   cd android && ./gradlew assembleRelease
+   ```
+
+4. **Mover o apk para o dispositivo**
+   
+   **Se o dispositivo estiver conectado a sua máquina por um cabo** execute o comando abaixo e mova o arquivo app-release.apk para a pasta Downloads
+   **Se o dispositivo não estiver conectado a sua máquina por um cabo** execute o comando abaixo e envie o arquivo app-release.apk para o celular de alguma outra forma
+   
+   ```bash
+   cd app/build/outputs/apk/release
+   ```
+   
+5. **Executar a instalação**
+
+   Acesse a pasta onde está salvo o app-release.apk no seu dispositivo toque nele e execute a instalação.
