@@ -2,7 +2,7 @@
 
 Uma aplicação móvel desenvolvida para prescrição de rotinas de exercícios e o gerenciamento de históricos e anotações por profissionais de educação física.
 
----
+--
 
 ## Funcionalidades
 
