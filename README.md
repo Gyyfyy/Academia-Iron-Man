@@ -57,10 +57,10 @@ Uma aplicação móvel desenvolvida para prescrição de rotinas de exercícios 
    cd android && ./gradlew assembleRelease
    ```
 
-4. **Mover o apk para o dispositivo**
+4. **Mover o apk para o dispositivo móvel**
    
-   **Se o dispositivo estiver conectado a sua máquina por um cabo** execute o comando abaixo e mova o arquivo app-release.apk para a pasta Downloads
-   **Se o dispositivo não estiver conectado a sua máquina por um cabo** execute o comando abaixo e envie o arquivo app-release.apk para o celular de alguma outra forma
+   - **Se o dispositivo móvel estiver conectado a sua máquina por um cabo** execute o comando abaixo e mova o arquivo app-release.apk para a pasta Downloads do dispositivo móvel.
+   - **Se o dispositivo móvel não estiver conectado a sua máquina por um cabo** execute o comando abaixo e envie o arquivo app-release.apk para o dispositivo móvel de alguma outra forma.
    
    ```bash
    cd app/build/outputs/apk/release
@@ -68,4 +68,4 @@ Uma aplicação móvel desenvolvida para prescrição de rotinas de exercícios 
    
 5. **Executar a instalação**
 
-   Acesse a pasta onde está salvo o app-release.apk no seu dispositivo toque nele e execute a instalação.
+   Acesse a pasta onde está salvo o app-release.apk no seu dispositivo móvel toque nele e execute a instalação.
